@@ -1,0 +1,24 @@
+name: Selenium Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run Selenium tests
+        working-directory: docker-selenium-test
+        run: docker-compose -f docker-compose.ci.yml up --build --abort-on-container-exit
+
+      - name: Show logs on failure
+        if: failure()
+        working-directory: docker-selenium-test
+        run: docker-compose -f docker-compose.ci.yml logs

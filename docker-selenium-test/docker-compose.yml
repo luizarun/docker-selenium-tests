@@ -1,0 +1,19 @@
+services:
+  selenium:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+
+  test:
+    build: .
+    depends_on:
+      selenium:
+        condition: service_healthy
+    environment:
+      - SELENIUM_URL=http://selenium:4444
