@@ -16,9 +16,9 @@ jobs:
       
       - name: Run Selenium tests
         working-directory: docker-selenium-test
-        run: docker-compose -f docker-compose.ci.yml up --build --abort-on-container-exit
+        run: docker compose -f docker-compose.ci.yml up --build --abort-on-container-exit
 
       - name: Show logs on failure
         if: failure()
         working-directory: docker-selenium-test
-        run: docker-compose -f docker-compose.ci.yml logs
+        run: docker compose -f docker-compose.ci.yml logs
